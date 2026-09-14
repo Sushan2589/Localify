@@ -49,7 +49,7 @@ playwright install chromium
 ```
 
 **3. Install FFmpeg**
-- Windows: `winget install ffmpeg` (or download from [ffmpeg.org](https://ffmpeg.org/))
+- Windows: `winget install ffmpeg` [in powershell] (or download from [ffmpeg.org](https://ffmpeg.org/))
 - macOS: `brew install ffmpeg`
 - Linux: `sudo apt install ffmpeg`
 
