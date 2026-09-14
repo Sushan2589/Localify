@@ -1,10 +1,10 @@
-
 import os
-from spotify_browser import get_playlist_tracks
-from downloader import find_best_match, download_track
 import random
 import time
 import re
+
+from spotify_browser import get_playlist_tracks
+from downloader import find_best_match, download_track
 
 
 def parse_duration_to_ms(duration_str: str) -> int:
@@ -21,31 +21,68 @@ def main():
 
     print(f"\nFound {len(tracks)} tracks:\n")
 
-    os.makedirs("downloads", exist_ok=True)
+    downloads_dir = "downloads"
+    os.makedirs(downloads_dir, exist_ok=True)
 
     for track in tracks:
-        time.sleep(random.uniform(1.5, 3.5))
         artists = ", ".join(track["artists"])
+
+        safe_title = re.sub(
+            r'[\\/*?:"<>|]',
+            "",
+            track["title"]
+        )
+
+        safe_artist = re.sub(
+            r'[\\/*?:"<>|]',
+            "",
+            artists
+        )
+
+        # No .mp3 here.
+        # yt-dlp + FFmpeg will add .mp3 automatically.
+        filename = f"{safe_artist} - {safe_title}"
+        output_path = os.path.join(downloads_dir, filename)
+
+        # This is the actual file we expect to exist.
+        expected_file = output_path + ".mp3"
+
+        print(
+            f'{track["position"]:03} | '
+            f'{track["title"]} | {artists}'
+        )
+
+        # Check downloads folder BEFORE doing anything else.
+        if os.path.exists(expected_file):
+            print("  ⏭️  Already downloaded, skipping\n")
+            continue
+
+        time.sleep(random.uniform(1.5, 3.5))
+
         target_ms = parse_duration_to_ms(track["duration"])
 
-        print(f'{track["position"]:03} | {track["title"]} | {artists}')
-
         try:
-            match = find_best_match(track["title"], artists, target_ms)
+            match = find_best_match(
+                track["title"],
+                artists,
+                target_ms
+            )
 
             if match is None:
-                print(f"  ⚠️  No good match found, skipping")
+                print("  ⚠️  No good match found, skipping\n")
                 continue
 
-            safe_title = re.sub(r'[\\/*?:"<>|]', "", track["title"])
-            safe_artist = re.sub(r'[\\/*?:"<>|]', "", artists)
-            output_path = f'downloads/{track["position"]:03} - {safe_artist} - {safe_title}.%(ext)s'
+            print("  ⬇️  Downloading...")
 
-            print(f"  ⬇️  Downloading...")
-            download_track(match["id"], output_path)
+            download_track(
+                match["id"],
+                output_path
+            )
+
+            print()
 
         except Exception as e:
-            print(f"  ❌ Failed: {e}")
+            print(f"  ❌ Failed: {e}\n")
             continue
 
 
