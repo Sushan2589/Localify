@@ -30,9 +30,13 @@ cd localify
 
 **2. Create a virtual environment and install dependencies**
 ```bash
+Do:
 python -m venv .venv
+
+
 # Windows
 .venv\Scripts\activate
+
 # macOS/Linux
 source .venv/bin/activate
 
