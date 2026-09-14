@@ -36,10 +36,9 @@ python -m venv .venv
 # macOS/Linux
 source .venv/bin/activate
 
-pip install -r requirements.txt
+
 ```
 
-If you don't have a `requirements.txt` yet, this covers the core deps:
 ```bash
 pip install playwright yt-dlp python-dotenv
 playwright install chromium
