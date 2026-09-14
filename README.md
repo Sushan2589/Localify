@@ -24,8 +24,8 @@ No Spotify Developer account, API key, or Premium subscription is needed at any 
 
 **1. Clone the repo and enter the project folder**
 ```bash
-git clone <your-repo-url> localify
-cd localify
+git clone https://github.com/Sushan2589/Localify
+cd Localify
 ```
 
 **2. Create a virtual environment and install dependencies**
