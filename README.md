@@ -62,11 +62,6 @@ curl -fsSL https://deno.land/install.sh | sh
 ```
 Restart your terminal afterwards so `deno` is on your PATH.
 
-**5. Set up environment variables**
-```bash
-cp .env.example .env
-```
-Fill in any values `.env.example` calls for, then save.
 
 ## Usage
 
